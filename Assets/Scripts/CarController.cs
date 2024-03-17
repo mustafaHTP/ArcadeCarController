@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -14,6 +15,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private float _antiSlipForce;
     [SerializeField] private float _orthogonalForce;
 
+    private const float MinCarSpeed = 0f;
+    private const float MinSteerVelocity = 0f;
     private float _moveInput;
     private float _steerInput;
 
@@ -31,6 +34,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         SyncTransformWithRigidbody();
+        //Steer();
         HelpSteer();
         MoveCar();
 
@@ -67,7 +71,10 @@ public class CarController : MonoBehaviour
 
     private void Steer()
     {
-        float deltaRotation = _steerInput * _steerVelocity * Time.deltaTime;
+        float currentSpeed = _rigidbody.velocity.magnitude;
+        float lerpedSpeed = Mathf.InverseLerp(MinCarSpeed, _topSpeed, currentSpeed);
+        float lerpedSteerVelocity = Mathf.Lerp(MinSteerVelocity, _steerVelocity, lerpedSpeed);
+        float deltaRotation = (_steerInput * lerpedSteerVelocity * Time.fixedDeltaTime);
 
         if (IsGoesBackwards())
         {

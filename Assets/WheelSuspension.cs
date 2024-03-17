@@ -56,7 +56,7 @@ public class WheelSuspension : MonoBehaviour
             _isSuspensionRayHit = false;
 
             float deltaPosition = _wheelDisplacementVelocity * Time.deltaTime;
-            Vector3 targetPosition = _suspensionTopPos - (_raycastLength * transform.up);
+            Vector3 targetPosition = _suspensionTopPos - ((_raycastLength - _wheelRadius) * transform.up);
             _wheel.position = Vector3.Lerp(_wheel.position, targetPosition, deltaPosition);
         }
     }
