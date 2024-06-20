@@ -34,7 +34,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         SyncTransformWithRigidbody();
-        //Steer();
+        Steer();
         HelpSteer();
         MoveCar();
 
